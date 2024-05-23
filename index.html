@@ -46,12 +46,12 @@
     <div class="container">
         <h2>Calcolatore Tariffe Cani</h2>
         <div class="input-group">
-            <label for="arrival">Ora di arrivo:</label>
-            <input type="time" id="arrival">
+            <label for="arrival">Data e ora di arrivo:</label>
+            <input type="datetime-local" id="arrival" step="3600">
         </div>
         <div class="input-group">
-            <label for="departure">Ora di ripartenza:</label>
-            <input type="time" id="departure">
+            <label for="departure">Data e ora di ripartenza:</label>
+            <input type="datetime-local" id="departure" step="3600">
         </div>
         <div class="input-group">
             <label for="numDogs">Numero di cani:</label>
@@ -91,8 +91,8 @@
         }
 
         function calculateCost() {
-            const arrival = new Date('1970-01-01T' + document.getElementById('arrival').value);
-            const departure = new Date('1970-01-01T' + document.getElementById('departure').value);
+            const arrival = new Date(document.getElementById('arrival').value);
+            const departure = new Date(document.getElementById('departure').value);
             const numDogs = parseInt(document.getElementById('numDogs').value);
             const tariff1 = parseFloat(document.getElementById('tariff1').value);
             const tariff2 = numDogs === 2 ? parseFloat(document.getElementById('tariff2').value) : 0;
@@ -122,8 +122,8 @@
 
             const shareText = `
                 Dettagli del Servizio:
-                - Ora di arrivo: ${arrival}
-                - Ora di ripartenza: ${departure}
+                - Data e ora di arrivo: ${arrival}
+                - Data e ora di ripartenza: ${departure}
                 - Numero di cani: ${numDogs}
                 - Tariffa Cane 1: €${tariff1}
                 ${numDogs == '2' ? `- Tariffa Cane 2: €${tariff2}` : ''}
