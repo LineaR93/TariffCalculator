@@ -100,9 +100,8 @@
             const arrival = new Date(document.getElementById('arrival').value);
             const departure = new Date(document.getElementById('departure').value);
             const tariff1 = parseFloat(document.getElementById('tariff1').value);
-            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
 
-            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(finalAmount)) {
+            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1)) {
                 document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
                 return;
             }
@@ -111,18 +110,32 @@
             const fourHourBlocks = totalHours / 4;
             const costPerBlock = tariff1 / 6;
             const calculatedTotal = roundToNearestFive(costPerBlock * fourHourBlocks);
-            const discount = roundToNearestFive(((calculatedTotal - finalAmount) / calculatedTotal) * 100);
-
-            document.getElementById('discount').value = discount.toFixed(0);
 
             document.getElementById('result').innerHTML = `
                 <p>Il costo totale senza sconto è: €${calculatedTotal}</p>
-                <p>Il costo totale con sconto è: €${roundToNearestFive(finalAmount)}</p>
-                <p>Sconto applicato: ${discount.toFixed(0)}%</p>
             `;
         }
 
         function shareDetails() {
+            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
+
+            if (isNaN(finalAmount)) {
+                alert('Per favore, inserisci l\'importo finale prima di condividere.');
+                return;
+            }
+
+            const resultDiv = document.getElementById('result');
+            const totalCostText = resultDiv.children[0].innerText;
+            const calculatedTotal = parseInt(totalCostText.split('€')[1]);
+            const discount = roundToNearestFive(((calculatedTotal - finalAmount) / calculatedTotal) * 100);
+
+            document.getElementById('discount').value = discount.toFixed(0);
+
+            resultDiv.innerHTML += `
+                <p>Il costo totale con sconto è: €${roundToNearestFive(finalAmount)}</p>
+                <p>Sconto applicato: ${discount.toFixed(0)}%</p>
+            `;
+
             html2canvas(document.querySelector(".container")).then(canvas => {
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL("image/png");
