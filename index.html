@@ -7,15 +7,24 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         .container {
             max-width: 600px;
-            margin: auto;
+            width: 100%;
             padding: 20px;
-            border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
         }
         .input-group {
             margin-bottom: 15px;
@@ -23,40 +32,40 @@
         .input-group label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
         }
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             box-sizing: border-box;
         }
         .result {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 15px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            background-color: #e9e9e9;
-        }
-        .hidden {
-            display: none;
+            background-color: #f9f9f9;
+            color: #333;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h2>Calcolatore Tariffe Cani</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
-            <input type="datetime-local" id="arrival" step="3600">
+            <input type="datetime-local" id="arrival" step="3600" onchange="calculateCost()">
         </div>
         <div class="input-group">
             <label for="departure">Data e ora di ripartenza:</label>
-            <input type="datetime-local" id="departure" step="3600">
+            <input type="datetime-local" id="departure" step="3600" onchange="calculateCost()">
         </div>
         <div class="input-group">
             <label for="numDogs">Numero di cani:</label>
-            <select id="numDogs" onchange="updateTariffs()">
+            <select id="numDogs" onchange="updateTariffs(); calculateCost();">
                 <option value="1">1 Cane</option>
                 <option value="2">2 Cani</option>
                 <option value="3">3 Cani</option>
@@ -64,20 +73,9 @@
         </div>
         <div class="input-group">
             <label for="tariff1">Tariffa (€ / 24 ore):</label>
-            <input type="number" id="tariff1" value="22">
+            <input type="number" id="tariff1" value="22" onchange="calculateCost()">
         </div>
-        <div class="input-group">
-            <label for="finalAmount">Importo Finale (€):</label>
-            <input type="number" id="finalAmount">
-        </div>
-        <div class="input-group">
-            <label for="discount">Sconto (%)</label>
-            <input type="number" id="discount" value="0" readonly>
-        </div>
-        <button onclick="calculateCost()">Calcola Prezzo</button>
         <div class="result" id="result"></div>
-        <button onclick="shareDetails()">Condividi</button>
-        <div id="shareResult"></div>
     </div>
     <script>
         function updateTariffs() {
@@ -112,37 +110,12 @@
             const calculatedTotal = roundToNearestFive(costPerBlock * fourHourBlocks);
 
             document.getElementById('result').innerHTML = `
-                <p>Il costo totale senza sconto è: €${calculatedTotal}</p>
+                <p>Il costo totale è: €${calculatedTotal}</p>
             `;
         }
 
-        function shareDetails() {
-            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
-
-            if (isNaN(finalAmount)) {
-                alert('Per favore, inserisci l\'importo finale prima di condividere.');
-                return;
-            }
-
-            const resultDiv = document.getElementById('result');
-            const totalCostText = resultDiv.children[0].innerText;
-            const calculatedTotal = parseInt(totalCostText.split('€')[1]);
-            const discount = roundToNearestFive(((calculatedTotal - finalAmount) / calculatedTotal) * 100);
-
-            document.getElementById('discount').value = discount.toFixed(0);
-
-            resultDiv.innerHTML += `
-                <p>Il costo totale con sconto è: €${roundToNearestFive(finalAmount)}</p>
-                <p>Sconto applicato: ${discount.toFixed(0)}%</p>
-            `;
-
-            html2canvas(document.querySelector(".container")).then(canvas => {
-                const link = document.createElement('a');
-                link.href = canvas.toDataURL("image/png");
-                link.download = 'dettagli_servizio.png';
-                link.click();
-            });
-        }
+        // Initialize the calculation on load
+        document.addEventListener('DOMContentLoaded', calculateCost);
     </script>
 </body>
 </html>
