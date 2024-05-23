@@ -41,6 +41,7 @@
             display: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -66,8 +67,12 @@
             <input type="number" id="tariff1" value="22">
         </div>
         <div class="input-group">
+            <label for="finalAmount">Importo Finale (€):</label>
+            <input type="number" id="finalAmount">
+        </div>
+        <div class="input-group">
             <label for="discount">Sconto (%)</label>
-            <input type="number" id="discount" value="0">
+            <input type="number" id="discount" value="0" readonly>
         </div>
         <button onclick="calculateCost()">Calcola Prezzo</button>
         <div class="result" id="result"></div>
@@ -87,14 +92,17 @@
             }
         }
 
+        function roundToNearestFive(value) {
+            return Math.round(value / 5) * 5;
+        }
+
         function calculateCost() {
             const arrival = new Date(document.getElementById('arrival').value);
             const departure = new Date(document.getElementById('departure').value);
-            const numDogs = parseInt(document.getElementById('numDogs').value);
             const tariff1 = parseFloat(document.getElementById('tariff1').value);
-            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
 
-            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(discount)) {
+            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(finalAmount)) {
                 document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
                 return;
             }
@@ -102,46 +110,25 @@
             const totalHours = (departure - arrival) / (1000 * 60 * 60);
             const fourHourBlocks = totalHours / 4;
             const costPerBlock = tariff1 / 6;
-            let totalCost = costPerBlock * fourHourBlocks;
-            let discountedCost = totalCost - (totalCost * (discount / 100));
+            const calculatedTotal = roundToNearestFive(costPerBlock * fourHourBlocks);
+            const discount = roundToNearestFive(((calculatedTotal - finalAmount) / calculatedTotal) * 100);
+
+            document.getElementById('discount').value = discount.toFixed(0);
 
             document.getElementById('result').innerHTML = `
-                <p>Il costo totale senza sconto è: €${totalCost.toFixed(2)}</p>
-                <p>Il costo totale con sconto è: €${discountedCost.toFixed(2)}</p>
+                <p>Il costo totale senza sconto è: €${calculatedTotal}</p>
+                <p>Il costo totale con sconto è: €${roundToNearestFive(finalAmount)}</p>
+                <p>Sconto applicato: ${discount.toFixed(0)}%</p>
             `;
         }
 
         function shareDetails() {
-            const arrival = document.getElementById('arrival').value;
-            const departure = document.getElementById('departure').value;
-            const numDogs = document.getElementById('numDogs').value;
-            const tariff1 = document.getElementById('tariff1').value;
-            const discount = document.getElementById('discount').value || 0;
-            const resultDiv = document.getElementById('result');
-            const totalCost = resultDiv.children[0].innerText.split('€')[1];
-            const discountedCost = resultDiv.children[1].innerText.split('€')[1];
-
-            const shareText = `
-                Dettagli del Servizio:
-                - Data e ora di arrivo: ${arrival}
-                - Data e ora di ripartenza: ${departure}
-                - Numero di cani: ${numDogs}
-                - Tariffa Cane 1: €${tariff1}
-                - Costo totale senza sconto: €${totalCost}
-                - Costo totale con sconto: €${discountedCost}
-                - Sconto applicato: ${discount}%
-            `;
-
-            const shareResult = document.getElementById('shareResult');
-            shareResult.innerHTML = `<textarea rows="6" cols="50">${shareText}</textarea>`;
-            shareResult.innerHTML += `<br><button onclick="copyToClipboard()">Copia negli appunti</button>`;
-        }
-
-        function copyToClipboard() {
-            const textarea = document.querySelector('#shareResult textarea');
-            textarea.select();
-            document.execCommand('copy');
-            alert('Dettagli copiati negli appunti!');
+            html2canvas(document.querySelector(".container")).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = 'dettagli_servizio.png';
+                link.click();
+            });
         }
     </script>
 </body>
