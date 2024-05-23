@@ -58,15 +58,12 @@
             <select id="numDogs" onchange="updateTariffs()">
                 <option value="1">1 Cane</option>
                 <option value="2">2 Cani</option>
+                <option value="3">3 Cani</option>
             </select>
         </div>
         <div class="input-group">
-            <label for="tariff1">Tariffa Cane 1 (€/24 ore):</label>
+            <label for="tariff1">Tariffa (€ / 24 ore):</label>
             <input type="number" id="tariff1" value="22">
-        </div>
-        <div class="input-group hidden" id="tariff2-group">
-            <label for="tariff2">Tariffa Cane 2 (€/24 ore):</label>
-            <input type="number" id="tariff2" value="15">
         </div>
         <div class="input-group">
             <label for="discount">Sconto (%)</label>
@@ -80,13 +77,13 @@
     <script>
         function updateTariffs() {
             const numDogs = document.getElementById('numDogs').value;
-            const tariff2Group = document.getElementById('tariff2-group');
-            if (numDogs == '2') {
-                document.getElementById('tariff1').value = 37;
-                tariff2Group.classList.remove('hidden');
-            } else {
-                document.getElementById('tariff1').value = 22;
-                tariff2Group.classList.add('hidden');
+            const tariff1Input = document.getElementById('tariff1');
+            if (numDogs == '1') {
+                tariff1Input.value = 22;
+            } else if (numDogs == '2') {
+                tariff1Input.value = 35;
+            } else if (numDogs == '3') {
+                tariff1Input.value = 50;
             }
         }
 
@@ -95,21 +92,23 @@
             const departure = new Date(document.getElementById('departure').value);
             const numDogs = parseInt(document.getElementById('numDogs').value);
             const tariff1 = parseFloat(document.getElementById('tariff1').value);
-            const tariff2 = numDogs === 2 ? parseFloat(document.getElementById('tariff2').value) : 0;
             const discount = parseFloat(document.getElementById('discount').value) || 0;
 
-            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(tariff2) || isNaN(discount)) {
+            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(discount)) {
                 document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
                 return;
             }
 
             const totalHours = (departure - arrival) / (1000 * 60 * 60);
             const fourHourBlocks = totalHours / 4;
-            const costPerBlock = (tariff1 + tariff2) / 6;
+            const costPerBlock = tariff1 / 6;
             let totalCost = costPerBlock * fourHourBlocks;
-            totalCost -= totalCost * (discount / 100);
+            let discountedCost = totalCost - (totalCost * (discount / 100));
 
-            document.getElementById('result').innerText = `Il costo totale è: €${totalCost.toFixed(2)}`;
+            document.getElementById('result').innerHTML = `
+                <p>Il costo totale senza sconto è: €${totalCost.toFixed(2)}</p>
+                <p>Il costo totale con sconto è: €${discountedCost.toFixed(2)}</p>
+            `;
         }
 
         function shareDetails() {
@@ -117,8 +116,10 @@
             const departure = document.getElementById('departure').value;
             const numDogs = document.getElementById('numDogs').value;
             const tariff1 = document.getElementById('tariff1').value;
-            const tariff2 = document.getElementById('tariff2').value;
             const discount = document.getElementById('discount').value || 0;
+            const resultDiv = document.getElementById('result');
+            const totalCost = resultDiv.children[0].innerText.split('€')[1];
+            const discountedCost = resultDiv.children[1].innerText.split('€')[1];
 
             const shareText = `
                 Dettagli del Servizio:
@@ -126,7 +127,8 @@
                 - Data e ora di ripartenza: ${departure}
                 - Numero di cani: ${numDogs}
                 - Tariffa Cane 1: €${tariff1}
-                ${numDogs == '2' ? `- Tariffa Cane 2: €${tariff2}` : ''}
+                - Costo totale senza sconto: €${totalCost}
+                - Costo totale con sconto: €${discountedCost}
                 - Sconto applicato: ${discount}%
             `;
 
