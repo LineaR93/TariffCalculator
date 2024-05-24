@@ -52,10 +52,14 @@
             background-color: #f9f9f9;
             color: #333;
         }
-        .settings-icon {
+        .icon-container {
             position: absolute;
             top: 10px;
             right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .icon {
             font-size: 24px;
             cursor: pointer;
             color: #333;
@@ -77,7 +81,11 @@
 </head>
 <body>
     <div class="container">
-        <i class="fas fa-cog settings-icon" onclick="window.location.href='settings.html'"></i>
+        <div class="icon-container">
+            <i class="fas fa-cog icon" title="Impostazioni" onclick="window.location.href='settings.html'"></i>
+            <i class="fas fa-list icon" title="Gestione Prenotazioni" onclick="window.location.href='reservations.html'"></i>
+            <i class="fas fa-chart-bar icon" title="Statistiche" onclick="window.location.href='statistics.html'"></i>
+        </div>
         <h2>Calcolatore Tariffe Cani</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
