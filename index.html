@@ -21,6 +21,7 @@
             border-radius: 10px;
             background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         h2 {
             text-align: center;
@@ -50,10 +51,19 @@
             background-color: #f9f9f9;
             color: #333;
         }
+        .settings-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <img src="settings-icon.png" alt="Impostazioni Tariffe" class="settings-icon" onclick="window.location.href='settings.html'">
         <h2>Calcolatore Tariffe Cani</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
@@ -71,23 +81,18 @@
                 <option value="3">3 Cani</option>
             </select>
         </div>
-        <div class="input-group">
-            <label for="tariff1">Tariffa (€ / 24 ore):</label>
-            <input type="number" id="tariff1" value="22" onchange="calculateCost()">
-        </div>
         <div class="result" id="result"></div>
     </div>
     <script>
+        let tariffs = {
+            1: 22,
+            2: 35,
+            3: 50
+        };
+
         function updateTariffs() {
             const numDogs = document.getElementById('numDogs').value;
-            const tariff1Input = document.getElementById('tariff1');
-            if (numDogs == '1') {
-                tariff1Input.value = 22;
-            } else if (numDogs == '2') {
-                tariff1Input.value = 35;
-            } else if (numDogs == '3') {
-                tariff1Input.value = 50;
-            }
+            document.getElementById('tariff1').value = tariffs[numDogs];
         }
 
         function roundToNearestFive(value) {
@@ -97,7 +102,8 @@
         function calculateCost() {
             const arrival = new Date(document.getElementById('arrival').value);
             const departure = new Date(document.getElementById('departure').value);
-            const tariff1 = parseFloat(document.getElementById('tariff1').value);
+            const numDogs = document.getElementById('numDogs').value;
+            const tariff1 = tariffs[numDogs];
 
             if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1)) {
                 document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
