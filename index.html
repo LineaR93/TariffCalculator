@@ -60,6 +60,19 @@
             cursor: pointer;
             color: #333;
         }
+        .save-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .save-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -83,6 +96,7 @@
             </select>
         </div>
         <div class="result" id="result"></div>
+        <button class="save-button" onclick="saveReservation()">Salva Prenotazione</button>
     </div>
     <script>
         let tariffs = {
@@ -126,6 +140,31 @@
             document.getElementById('result').innerHTML = `
                 <p>Il costo totale è: €${calculatedTotal}</p>
             `;
+        }
+
+        function saveReservation() {
+            const arrival = document.getElementById('arrival').value;
+            const departure = document.getElementById('departure').value;
+            const numDogs = document.getElementById('numDogs').value;
+            const resultText = document.getElementById('result').innerText;
+
+            if (!arrival || !departure || !numDogs || !resultText) {
+                alert('Per favore, completa tutti i campi prima di salvare la prenotazione.');
+                return;
+            }
+
+            const reservation = {
+                arrival,
+                departure,
+                numDogs,
+                cost: resultText.split('€')[1]
+            };
+
+            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations.push(reservation);
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+
+            alert('Prenotazione salvata con successo!');
         }
 
         // Initialize the calculation on load
