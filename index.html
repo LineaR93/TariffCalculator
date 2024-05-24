@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolatore Tariffe Cani</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,15 +56,15 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 24px;
-            height: 24px;
+            font-size: 24px;
             cursor: pointer;
+            color: #333;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="settings-icon.png" alt="Impostazioni Tariffe" class="settings-icon" onclick="window.location.href='settings.html'">
+        <i class="fas fa-cog settings-icon" onclick="window.location.href='settings.html'"></i>
         <h2>Calcolatore Tariffe Cani</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
@@ -92,7 +93,7 @@
 
         function updateTariffs() {
             const numDogs = document.getElementById('numDogs').value;
-            document.getElementById('tariff1').value = tariffs[numDogs];
+            tariffs[numDogs] = localStorage.getItem(`tariff${numDogs}`) || tariffs[numDogs];
         }
 
         function roundToNearestFive(value) {
@@ -121,7 +122,10 @@
         }
 
         // Initialize the calculation on load
-        document.addEventListener('DOMContentLoaded', calculateCost);
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateCost();
+            updateTariffs();
+        });
     </script>
 </body>
 </html>
