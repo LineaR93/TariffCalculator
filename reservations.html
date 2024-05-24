@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Prenotazioni</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .delete-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        .edit-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gestione Prenotazioni</h2>
+        <table id="reservationsTable">
+            <thead>
+                <tr>
+                    <th>Data e Ora di Arrivo</th>
+                    <th>Data e Ora di Ripartenza</th>
+                    <th>Numero di Cani</th>
+                    <th>Costo</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Le prenotazioni saranno caricate qui tramite JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function loadReservations() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const tbody = document.querySelector('#reservationsTable tbody');
+            tbody.innerHTML = '';
+
+            reservations.forEach((reservation, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${reservation.arrival}</td>
+                    <td>${reservation.departure}</td>
+                    <td>${reservation.numDogs}</td>
+                    <td>€${reservation.cost}</td>
+                    <td>
+                        <button class="edit-button" onclick="editReservation(${index})">Modifica</button>
+                        <button class="delete-button" onclick="deleteReservation(${index})">Elimina</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function deleteReservation(index) {
+            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations.splice(index, 1);
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+            loadReservations();
+        }
+
+        function editReservation(index) {
+            // Implementa la logica per modificare la prenotazione
+            // Ad esempio, puoi popolare un modulo con i dati della prenotazione per modificarli
+            alert('Funzione di modifica non ancora implementata');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadReservations);
+    </script>
+</body>
+</html>
