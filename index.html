@@ -76,7 +76,7 @@
         </div>
         <div class="input-group">
             <label for="numDogs">Numero di cani:</label>
-            <select id="numDogs" onchange="updateTariffs(); calculateCost();">
+            <select id="numDogs" onchange="calculateCost();">
                 <option value="1">1 Cane</option>
                 <option value="2">2 Cani</option>
                 <option value="3">3 Cani</option>
@@ -91,9 +91,16 @@
             3: 50
         };
 
-        function updateTariffs() {
-            const numDogs = document.getElementById('numDogs').value;
-            tariffs[numDogs] = localStorage.getItem(`tariff${numDogs}`) || tariffs[numDogs];
+        function loadTariffs() {
+            if (localStorage.getItem('tariff1')) {
+                tariffs[1] = parseFloat(localStorage.getItem('tariff1'));
+            }
+            if (localStorage.getItem('tariff2')) {
+                tariffs[2] = parseFloat(localStorage.getItem('tariff2'));
+            }
+            if (localStorage.getItem('tariff3')) {
+                tariffs[3] = parseFloat(localStorage.getItem('tariff3'));
+            }
         }
 
         function roundToNearestFive(value) {
@@ -123,8 +130,8 @@
 
         // Initialize the calculation on load
         document.addEventListener('DOMContentLoaded', () => {
+            loadTariffs();
             calculateCost();
-            updateTariffs();
         });
     </script>
 </body>
