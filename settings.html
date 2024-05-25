@@ -3,59 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiche Prenotazioni</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        .statistics {
-            margin-top: 20px;
-        }
-        .statistics p {
-            font-size: 18px;
-            color: #555;
-        }
-    </style>
+    <title>Impostazioni Tariffe</title>
+    <link rel="stylesheet" href="tyles.css">
 </head>
 <body>
     <div class="container">
-        <h2>Statistiche Prenotazioni</h2>
-        <div class="statistics" id="statistics">
-            <!-- Le statistiche saranno caricate qui tramite JavaScript -->
+        <h2>Impostazioni Tariffe</h2>
+        <div class="input-group">
+            <label for="dogTariff1">Tariffa 1 Cane (€ / 24 ore):</label>
+            <input type="number" id="dogTariff1" value="22">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff2">Tariffa 2 Cani (€ / 24 ore):</label>
+            <input type="number" id="dogTariff2" value="35">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff3">Tariffa 3 Cani (€ / 24 ore):</label>
+            <input type="number" id="dogTariff3" value="50">
+        </div>
+        <div class="input-group">
+            <label for="catTariff1">Tariffa 1 Gatto (€ / 24 ore):</label>
+            <input type="number" id="catTariff1" value="10">
+        </div>
+        <div class="input-group">
+            <label for="catTariff2">Tariffa 2 Gatti (€ / 24 ore):</label>
+            <input type="number" id="catTariff2" value="5">
+        </div>
+        <div class="input-group">
+            <label for="catTariff3">Tariffa 3 Gatti (€ / 24 ore):</label>
+            <input type="number" id="catTariff3" value="5">
+        </div>
+        <div class="button-group">
+            <button onclick="saveTariffs()">Salva</button>
+            <button onclick="window.location.href='index.html'">Torna al Calcolatore</button>
         </div>
     </div>
-    <script>
-        function loadStatistics() {
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const totalReservations = reservations.length;
-            const totalRevenue = reservations.reduce((sum, reservation) => sum + parseFloat(reservation.cost), 0);
-
-            const statsDiv = document.getElementById('statistics');
-            statsDiv.innerHTML = `
-                <p>Numero totale di prenotazioni: ${totalReservations}</p>
-                <p>Entrate totali: €${totalRevenue.toFixed(2)}</p>
-            `;
-        }
-
-        document.addEventListener('DOMContentLoaded', loadStatistics);
-    </script>
+    <script src="settings.js"></script>
 </body>
 </html>
