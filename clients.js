@@ -1,47 +1,27 @@
-function loadClients() {
-    const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-    const clients = {};
-
-    reservations.forEach(reservation => {
-        if (!clients[reservation.ownerName]) {
-            clients[reservation.ownerName] = {
-                id: clients.length,
-                totalReservations: 0,
-                totalDogs: 0,
-                totalCats: 0,
-                totalRevenue: 0
-            };
-        }
-        clients[reservation.ownerName].totalReservations += 1;
-        clients[reservation.ownerName].totalDogs += parseInt(reservation.numDogs);
-        clients[reservation.ownerName].totalCats += parseInt(reservation.numCats);
-        clients[reservation.ownerName].totalRevenue += parseFloat(reservation.cost);
-    });
-
-    const tbody = document.querySelector('#clientsTable tbody');
-    tbody.innerHTML = '';
-
-    for (const [client, data] of Object.entries(clients)) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${data.id}</td>
-            <td>${client}</td>
-            <td>${data.totalReservations}</td>
-            <td>${data.totalDogs}</td>
-            <td>${data.totalCats}</td>
-            <td>€${data.totalRevenue.toFixed(2)}</td>
-            <td>
-                <button class="view-button" onclick="viewClient('${client}')">Visualizza</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    }
-}
-
-function viewClient(clientName) {
-    const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-    const clientReservations = reservations.filter(reservation => reservation.ownerName === clientName);
-    alert(`Dettagli prenotazioni per ${clientName}: ${JSON.stringify(clientReservations, null, 2)}`);
-}
-
-document.addEventListener('DOMContentLoaded', loadClients);
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Clienti</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Gestione Clienti</h2>
+        <table class="clients-table" id="clientsTable">
+            <thead>
+                <tr>
+                    <th>Nome del Proprietario</th>
+                    <th>Numero di Prenotazioni</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- I clienti saranno caricati qui tramite JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="clients.js"></script>
+</body>
+</html>
