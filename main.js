@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calculateCost();
     loadUpcomingAppointment();
     loadNextAppointment();
+    checkLogin();
 });
 
 let tariffs = {
