@@ -18,8 +18,36 @@
             <i class="fas fa-users icon" title="Gestione Clienti" onclick="window.location.href='clients.html'"></i>
         </div>
         <h2>Calcolatore Tariffe Animali</h2>
-        <!-- Resto del codice -->
-        <script src="main.js"></script>
+        <div class="input-group">
+            <label for="arrival">Data e ora di arrivo:</label>
+            <input type="datetime-local" id="arrival" step="3600" onchange="calculateCost()">
+        </div>
+        <div class="input-group">
+            <label for="departure">Data e ora di ripartenza:</label>
+            <input type="datetime-local" id="departure" step="3600" onchange="calculateCost()">
+        </div>
+        <div class="input-group">
+            <label for="numDogs">Numero di cani:</label>
+            <select id="numDogs" onchange="calculateCost();">
+                <option value="0">0 Cani</option>
+                <option value="1" selected>1 Cane</option>
+                <option value="2">2 Cani</option>
+                <option value="3">3 Cani</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="numCats">Numero di gatti:</label>
+            <select id="numCats" onchange="calculateCost();">
+                <option value="0" selected>0 Gatti</option>
+                <option value="1">1 Gatto</option>
+                <option value="2">2 Gatti</option>
+                <option value="3">3 Gatti</option>
+            </select>
+        </div>
+        <div class="result" id="result"></div>
+        <button class="save-button" onclick="saveReservation()">Salva Prenotazione</button>
+        <div class="upcoming-appointment" id="upcoming-appointment"></div>
     </div>
+    <script src="main.js"></script>
 </body>
 </html>
