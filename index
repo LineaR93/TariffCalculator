@@ -3,82 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcolatore Tariffe Cani</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #e9e9e9;
-        }
-    </style>
+    <title>Calcolatore Tariffe Animali</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h2>Calcolatore Tariffe Cani</h2>
+        <div class="header">
+            <marquee behavior="scroll" direction="left" id="nextAppointmentMessage">Prossimo appuntamento: Nessuno</marquee>
+            <div class="icon-container">
+                <i class="fas fa-cog icon" title="Impostazioni" onclick="window.location.href='settings.html'"></i>
+                <i class="fas fa-list icon" title="Gestione Prenotazioni" onclick="window.location.href='reservations.html'"></i>
+                <i class="fas fa-chart-bar icon" title="Statistiche" onclick="window.location.href='statistics.html'"></i>
+                <i class="fas fa-users icon" title="Gestione Clienti" onclick="window.location.href='clients.html'"></i>
+            </div>
+        </div>
+        <a href="appointments.html" class="appointments-link"><i class="fas fa-plus"></i> Aggiungi Appuntamento</a>
+        <h2>Calcolatore Tariffe Animali</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
-            <input type="datetime-local" id="arrival">
+            <input type="datetime-local" id="arrival" step="3600" onchange="calculateCost()">
         </div>
         <div class="input-group">
             <label for="departure">Data e ora di ripartenza:</label>
-            <input type="datetime-local" id="departure">
+            <input type="datetime-local" id="departure" step="3600" onchange="calculateCost()">
         </div>
         <div class="input-group">
-            <label for="tariff1">Tariffa Cane 1 (€/24 ore):</label>
-            <input type="number" id="tariff1" value="20">
+            <label for="numDogs">Numero di cani:</label>
+            <select id="numDogs" onchange="calculateCost();">
+                <option value="0">0 Cani</option>
+                <option value="1" selected>1 Cane</option>
+                <option value="2">2 Cani</option>
+                <option value="3">3 Cani</option>
+            </select>
         </div>
         <div class="input-group">
-            <label for="tariff2">Tariffa Cane 2 (€/24 ore):</label>
-            <input type="number" id="tariff2" value="15">
+            <label for="numCats">Numero di gatti:</label>
+            <select id="numCats" onchange="calculateCost();">
+                <option value="0" selected>0 Gatti</option>
+                <option value="1">1 Gatto</option>
+                <option value="2">2 Gatti</option>
+                <option value="3">3 Gatti</option>
+            </select>
         </div>
-        <button onclick="calculateCost()">Calcola Prezzo</button>
         <div class="result" id="result"></div>
+        <button class="save-button" onclick="saveReservation()">Salva Prenotazione</button>
+        <div class="upcoming-appointment" id="upcoming-appointment"></div>
     </div>
-    <script>
-        function calculateCost() {
-            const arrival = new Date(document.getElementById('arrival').value);
-            const departure = new Date(document.getElementById('departure').value);
-            const tariff1 = parseFloat(document.getElementById('tariff1').value);
-            const tariff2 = parseFloat(document.getElementById('tariff2').value);
-
-            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1) || isNaN(tariff2)) {
-                document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
-                return;
-            }
-
-            const totalHours = (departure - arrival) / (1000 * 60 * 60);
-            const fourHourBlocks = totalHours / 4;
-            const costPerBlock = (tariff1 + tariff2) / 6;
-            const totalCost = costPerBlock * fourHourBlocks;
-
-            document.getElementById('result').innerText = `Il costo totale è: €${totalCost.toFixed(2)}`;
-        }
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
