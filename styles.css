@@ -6,12 +6,14 @@ body {
 }
 
 .container {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    border-radius: 8px;
 }
 
 .header {
@@ -19,6 +21,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
+    margin-bottom: 20px;
 }
 
 .icon-container {
@@ -33,14 +36,16 @@ body {
 
 h2 {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .input-group {
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-group label {
-    display: block;
     margin-bottom: 5px;
 }
 
@@ -56,6 +61,7 @@ h2 {
 
 .button-group {
     text-align: center;
+    margin-top: 20px;
 }
 
 button {
@@ -65,6 +71,7 @@ button {
     background-color: #28a745;
     color: #fff;
     cursor: pointer;
+    margin: 5px;
 }
 
 button.delete-button {
@@ -112,4 +119,40 @@ th {
     margin-top: 20px;
     font-size: 1em;
     color: #333;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .icon-container {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .icon {
+        font-size: 1.2em;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
