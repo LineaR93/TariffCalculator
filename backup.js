@@ -1,11 +1,12 @@
 // Configurazione di Firebase
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBtNsDjH7oivnrDU7Bi_5fR62ksa4-2N9Q",
+    authDomain: "petsitter-d69ed.firebaseapp.com",
+    projectId: "petsitter-d69ed",
+    storageBucket: "petsitter-d69ed.appspot.com",
+    messagingSenderId: "119772151716",
+    appId: "1:119772151716:web:2fd12bfab1972bb3354b31",
+    measurementId: "G-9J4RWJLTQ2"
 };
 
 // Inizializza Firebase
