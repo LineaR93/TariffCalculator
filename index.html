@@ -9,15 +9,17 @@
 </head>
 <body>
     <div class="container">
-        <marquee behavior="scroll" direction="left" id="nextAppointmentMessage">Prossimo appuntamento: Nessuno</marquee>
-        <a href="appointments.html" class="appointments-link"><i class="fas fa-plus"></i> Aggiungi Appuntamento</a>
-        <div class="icon-container">
-            <i class="fas fa-cog icon" title="Impostazioni" onclick="window.location.href='settings.html'"></i>
-            <i class="fas fa-sign-out-alt icon" title="Logout" onclick="logout()"></i>
-            <i class="fas fa-list icon" title="Gestione Prenotazioni" onclick="window.location.href='reservations.html'"></i>
-            <i class="fas fa-chart-bar icon" title="Statistiche" onclick="window.location.href='statistics.html'"></i>
-            <i class="fas fa-users icon" title="Gestione Clienti" onclick="window.location.href='clients.html'"></i>
+        <div class="header">
+            <marquee behavior="scroll" direction="left" id="nextAppointmentMessage">Prossimo appuntamento: Nessuno</marquee>
+            <div class="icon-container">
+                <i class="fas fa-sign-out-alt icon" title="Logout" onclick="logout()"></i>
+                <i class="fas fa-cog icon" title="Impostazioni" onclick="window.location.href='settings.html'"></i>
+                <i class="fas fa-list icon" title="Gestione Prenotazioni" onclick="window.location.href='reservations.html'"></i>
+                <i class="fas fa-chart-bar icon" title="Statistiche" onclick="window.location.href='statistics.html'"></i>
+                <i class="fas fa-users icon" title="Gestione Clienti" onclick="window.location.href='clients.html'"></i>
+            </div>
         </div>
+        <a href="appointments.html" class="appointments-link"><i class="fas fa-plus"></i> Aggiungi Appuntamento</a>
         <h2>Calcolatore Tariffe Animali</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
