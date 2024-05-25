@@ -39,13 +39,11 @@
                 <label for="ownerName">Nome Proprietario:</label>
                 <input type="text" id="ownerName">
             </div>
-            <div class="input-group">
-                <label for="dogName">Nome Cane:</label>
-                <input type="text" id="dogName">
+            <div class="input-group" id="dogNamesGroup">
+                <!-- Campi Nome Cane saranno aggiunti qui tramite JavaScript -->
             </div>
-            <div class="input-group">
-                <label for="catName">Nome Gatto:</label>
-                <input type="text" id="catName">
+            <div class="input-group" id="catNamesGroup">
+                <!-- Campi Nome Gatto saranno aggiunti qui tramite JavaScript -->
             </div>
         </div>
         <div class="input-group">
@@ -58,7 +56,7 @@
         </div>
         <div class="input-group">
             <label for="numDogs">Numero di cani:</label>
-            <select id="numDogs" onchange="calculateCost();">
+            <select id="numDogs" onchange="updateDogFields(); calculateCost();">
                 <option value="0">0 Cani</option>
                 <option value="1" selected>1 Cane</option>
                 <option value="2">2 Cani</option>
@@ -67,7 +65,7 @@
         </div>
         <div class="input-group">
             <label for="numCats">Numero di gatti:</label>
-            <select id="numCats" onchange="calculateCost();">
+            <select id="numCats" onchange="updateCatFields(); calculateCost();">
                 <option value="0" selected>0 Gatti</option>
                 <option value="1">1 Gatto</option>
                 <option value="2">2 Gatti</option>
