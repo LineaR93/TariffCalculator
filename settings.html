@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostazioni Tariffe</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Statistiche Prenotazioni</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +15,7 @@
             margin: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
             padding: 20px;
             border-radius: 10px;
@@ -27,85 +26,36 @@
             text-align: center;
             color: #333;
         }
-        .input-group {
-            margin-bottom: 15px;
+        .statistics {
+            margin-top: 20px;
         }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
+        .statistics p {
+            font-size: 18px;
             color: #555;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .button-group {
-            text-align: center;
-        }
-        .button-group button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #333;
-            color: #fff;
-            cursor: pointer;
-        }
-        .button-group button:hover {
-            background-color: #555;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Impostazioni Tariffe</h2>
-        <div class="input-group">
-            <label for="tariff1">Tariffa 1 Cane (€ / 24 ore):</label>
-            <input type="number" id="tariff1" value="22">
-        </div>
-        <div class="input-group">
-            <label for="tariff2">Tariffa 2 Cani (€ / 24 ore):</label>
-            <input type="number" id="tariff2" value="35">
-        </div>
-        <div class="input-group">
-            <label for="tariff3">Tariffa 3 Cani (€ / 24 ore):</label>
-            <input type="number" id="tariff3" value="50">
-        </div>
-        <div class="button-group">
-            <button onclick="saveTariffs()">Salva</button>
-            <button onclick="window.location.href='index.html'">Torna al Calcolatore</button>
+        <h2>Statistiche Prenotazioni</h2>
+        <div class="statistics" id="statistics">
+            <!-- Le statistiche saranno caricate qui tramite JavaScript -->
         </div>
     </div>
     <script>
-        function saveTariffs() {
-            const tariff1 = parseFloat(document.getElementById('tariff1').value);
-            const tariff2 = parseFloat(document.getElementById('tariff2').value);
-            const tariff3 = parseFloat(document.getElementById('tariff3').value);
+        function loadStatistics() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            const totalReservations = reservations.length;
+            const totalRevenue = reservations.reduce((sum, reservation) => sum + parseFloat(reservation.cost), 0);
 
-            if (!isNaN(tariff1) && !isNaN(tariff2) && !isNaN(tariff3)) {
-                localStorage.setItem('tariff1', tariff1);
-                localStorage.setItem('tariff2', tariff2);
-                localStorage.setItem('tariff3', tariff3);
-                alert('Tariffe salvate con successo!');
-            } else {
-                alert('Per favore, inserisci tutte le tariffe correttamente.');
-            }
+            const statsDiv = document.getElementById('statistics');
+            statsDiv.innerHTML = `
+                <p>Numero totale di prenotazioni: ${totalReservations}</p>
+                <p>Entrate totali: €${totalRevenue.toFixed(2)}</p>
+            `;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('tariff1')) {
-                document.getElementById('tariff1').value = localStorage.getItem('tariff1');
-            }
-            if (localStorage.getItem('tariff2')) {
-                document.getElementById('tariff2').value = localStorage.getItem('tariff2');
-            }
-            if (localStorage.getItem('tariff3')) {
-                document.getElementById('tariff3').value = localStorage.getItem('tariff3');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', loadStatistics);
     </script>
 </body>
 </html>
