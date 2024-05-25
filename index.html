@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcolatore Tariffe Cani</title>
+    <title>Calcolatore Tariffe Animali</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -16,7 +16,7 @@
             margin: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
             padding: 20px;
             border-radius: 10px;
@@ -77,16 +77,36 @@
         .save-button:hover {
             background-color: #218838;
         }
+        .appointments-link {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .appointments-link:hover {
+            text-decoration: underline;
+        }
+        .upcoming-appointment {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #e9f7ef;
+            color: #333;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="reservations.html" class="appointments-link"><i class="fas fa-plus"></i> Aggiungi Appuntamento</a>
         <div class="icon-container">
             <i class="fas fa-cog icon" title="Impostazioni" onclick="window.location.href='settings.html'"></i>
             <i class="fas fa-list icon" title="Gestione Prenotazioni" onclick="window.location.href='reservations.html'"></i>
             <i class="fas fa-chart-bar icon" title="Statistiche" onclick="window.location.href='statistics.html'"></i>
         </div>
-        <h2>Calcolatore Tariffe Cani</h2>
+        <h2>Calcolatore Tariffe Animali</h2>
         <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
             <input type="datetime-local" id="arrival" step="3600" onchange="calculateCost()">
@@ -98,30 +118,57 @@
         <div class="input-group">
             <label for="numDogs">Numero di cani:</label>
             <select id="numDogs" onchange="calculateCost();">
-                <option value="1">1 Cane</option>
+                <option value="0">0 Cani</option>
+                <option value="1" selected>1 Cane</option>
                 <option value="2">2 Cani</option>
                 <option value="3">3 Cani</option>
             </select>
         </div>
+        <div class="input-group">
+            <label for="numCats">Numero di gatti:</label>
+            <select id="numCats" onchange="calculateCost();">
+                <option value="0" selected>0 Gatti</option>
+                <option value="1">1 Gatto</option>
+                <option value="2">2 Gatti</option>
+                <option value="3">3 Gatti</option>
+            </select>
+        </div>
         <div class="result" id="result"></div>
         <button class="save-button" onclick="saveReservation()">Salva Prenotazione</button>
+        <div class="upcoming-appointment" id="upcoming-appointment"></div>
     </div>
     <script>
         let tariffs = {
-            1: 22,
-            2: 35,
-            3: 50
+            dogs: {
+                1: 22,
+                2: 35,
+                3: 50
+            },
+            cats: {
+                1: 10,
+                2: 5,
+                3: 5
+            }
         };
 
         function loadTariffs() {
-            if (localStorage.getItem('tariff1')) {
-                tariffs[1] = parseFloat(localStorage.getItem('tariff1'));
+            if (localStorage.getItem('dogTariff1')) {
+                tariffs.dogs[1] = parseFloat(localStorage.getItem('dogTariff1'));
             }
-            if (localStorage.getItem('tariff2')) {
-                tariffs[2] = parseFloat(localStorage.getItem('tariff2'));
+            if (localStorage.getItem('dogTariff2')) {
+                tariffs.dogs[2] = parseFloat(localStorage.getItem('dogTariff2'));
             }
-            if (localStorage.getItem('tariff3')) {
-                tariffs[3] = parseFloat(localStorage.getItem('tariff3'));
+            if (localStorage.getItem('dogTariff3')) {
+                tariffs.dogs[3] = parseFloat(localStorage.getItem('dogTariff3'));
+            }
+            if (localStorage.getItem('catTariff1')) {
+                tariffs.cats[1] = parseFloat(localStorage.getItem('catTariff1'));
+            }
+            if (localStorage.getItem('catTariff2')) {
+                tariffs.cats[2] = parseFloat(localStorage.getItem('catTariff2'));
+            }
+            if (localStorage.getItem('catTariff3')) {
+                tariffs.cats[3] = parseFloat(localStorage.getItem('catTariff3'));
             }
         }
 
@@ -133,17 +180,20 @@
             const arrival = new Date(document.getElementById('arrival').value);
             const departure = new Date(document.getElementById('departure').value);
             const numDogs = document.getElementById('numDogs').value;
-            const tariff1 = tariffs[numDogs];
+            const numCats = document.getElementById('numCats').value;
+            const dogTariff = tariffs.dogs[numDogs] || 0;
+            const catTariff = tariffs.cats[numCats] || 0;
 
-            if (isNaN(arrival) || isNaN(departure) || isNaN(tariff1)) {
+            if (isNaN(arrival) || isNaN(departure)) {
                 document.getElementById('result').innerText = 'Per favore, inserisci tutti i dati correttamente.';
                 return;
             }
 
             const totalHours = (departure - arrival) / (1000 * 60 * 60);
             const fourHourBlocks = totalHours / 4;
-            const costPerBlock = tariff1 / 6;
-            const calculatedTotal = roundToNearestFive(costPerBlock * fourHourBlocks);
+            const dogCostPerBlock = dogTariff / 6;
+            const catCostPerBlock = catTariff / 6;
+            const calculatedTotal = roundToNearestFive(dogCostPerBlock * fourHourBlocks + catCostPerBlock * fourHourBlocks);
 
             document.getElementById('result').innerHTML = `
                 <p>Il costo totale è: €${calculatedTotal}</p>
@@ -154,9 +204,10 @@
             const arrival = document.getElementById('arrival').value;
             const departure = document.getElementById('departure').value;
             const numDogs = document.getElementById('numDogs').value;
+            const numCats = document.getElementById('numCats').value;
             const resultText = document.getElementById('result').innerText;
 
-            if (!arrival || !departure || !numDogs || !resultText) {
+            if (!arrival || !departure || (!numDogs && !numCats) || !resultText) {
                 alert('Per favore, completa tutti i campi prima di salvare la prenotazione.');
                 return;
             }
@@ -165,6 +216,7 @@
                 arrival,
                 departure,
                 numDogs,
+                numCats,
                 cost: resultText.split('€')[1]
             };
 
@@ -173,12 +225,27 @@
             localStorage.setItem('reservations', JSON.stringify(reservations));
 
             alert('Prenotazione salvata con successo!');
+            loadUpcomingAppointment();
         }
 
-        // Initialize the calculation on load
+        function loadUpcomingAppointment() {
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            if (reservations.length === 0) return;
+
+            const nextReservation = reservations.sort((a, b) => new Date(a.arrival) - new Date(b.arrival))[0];
+            const arrivalDate = new Date(nextReservation.arrival);
+            const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+            const formattedDate = arrivalDate.toLocaleDateString('it-IT', options);
+
+            document.getElementById('upcoming-appointment').innerHTML = `
+                <p>Prossimo appuntamento: ${formattedDate} con ${nextReservation.numDogs} cani e ${nextReservation.numCats} gatti</p>
+            `;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadTariffs();
             calculateCost();
+            loadUpcomingAppointment();
         });
     </script>
 </body>
