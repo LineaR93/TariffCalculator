@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let tariffs = {
     dogs: {
-        1: 25,
+        1: 22,
         2: 35,
         3: 50
     },
     cats: {
         1: 10,
-        2: 15,
-        3: 20
+        2: 5,
+        3: 5
     }
 };
 
@@ -66,6 +66,48 @@ function toggleCustomerFields() {
     } else {
         existingCustomerGroup.style.display = 'none';
         newCustomerGroup.style.display = 'block';
+        updateDogFields();
+        updateCatFields();
+    }
+}
+
+function updateDogFields() {
+    const numDogs = document.getElementById('numDogs').value;
+    const dogNamesGroup = document.getElementById('dogNamesGroup');
+    dogNamesGroup.innerHTML = '';
+
+    for (let i = 1; i <= numDogs; i++) {
+        const label = document.createElement('label');
+        label.setAttribute('for', `dogName${i}`);
+        label.textContent = `Nome Cane ${i}:`;
+
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('id', `dogName${i}`);
+        input.className = 'dog-name';
+
+        dogNamesGroup.appendChild(label);
+        dogNamesGroup.appendChild(input);
+    }
+}
+
+function updateCatFields() {
+    const numCats = document.getElementById('numCats').value;
+    const catNamesGroup = document.getElementById('catNamesGroup');
+    catNamesGroup.innerHTML = '';
+
+    for (let i = 1; i <= numCats; i++) {
+        const label = document.createElement('label');
+        label.setAttribute('for', `catName${i}`);
+        label.textContent = `Nome Gatto ${i}:`;
+
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('id', `catName${i}`);
+        input.className = 'cat-name';
+
+        catNamesGroup.appendChild(label);
+        catNamesGroup.appendChild(input);
     }
 }
 
@@ -134,17 +176,22 @@ function saveReservation() {
     }
 
     let ownerName = '';
-    let dogName = '';
-    let catName = '';
+    let dogNames = [];
+    let catNames = [];
     let customerId = existingCustomerId;
 
     if (customerType === 'new') {
         ownerName = document.getElementById('ownerName').value;
-        dogName = document.getElementById('dogName').value;
-        catName = document.getElementById('catName').value;
 
-        if (!ownerName || (!dogName && !catName)) {
-            alert('Per favore, inserisci il nome del proprietario e almeno un animale.');
+        for (let i = 1; i <= numDogs; i++) {
+            dogNames.push(document.getElementById(`dogName${i}`).value);
+        }
+        for (let i = 1; i <= numCats; i++) {
+            catNames.push(document.getElementById(`catName${i}`).value);
+        }
+
+        if (!ownerName || (numDogs > 0 && dogNames.includes('')) || (numCats > 0 && catNames.includes(''))) {
+            alert('Per favore, inserisci il nome del proprietario e i nomi degli animali.');
             return;
         }
 
@@ -152,8 +199,8 @@ function saveReservation() {
         const newCustomer = {
             id: customerId,
             ownerName,
-            dogName,
-            catName,
+            dogNames,
+            catNames,
             numDogs,
             numCats,
             dogTariff: tariffs.dogs[numDogs],
@@ -167,8 +214,8 @@ function saveReservation() {
         const customer = customers.find(c => c.id == existingCustomerId);
         if (customer) {
             ownerName = customer.ownerName;
-            dogName = customer.dogName;
-            catName = customer.catName;
+            dogNames = customer.dogNames;
+            catNames = customer.catNames;
         }
     }
 
@@ -180,8 +227,8 @@ function saveReservation() {
         cost: resultText.split('€')[1],
         customerId,
         ownerName,
-        dogName,
-        catName
+        dogNames,
+        catNames
     };
 
     let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
