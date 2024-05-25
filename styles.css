@@ -14,6 +14,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
     border-radius: 8px;
+    overflow-x: auto; /* Aggiunto per rendere il contenitore scrollabile orizzontalmente */
 }
 
 .header {
@@ -86,6 +87,7 @@ table {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-width: 600px; /* Aggiunto per forzare una larghezza minima */
 }
 
 table th,
@@ -156,5 +158,9 @@ table th {
     button {
         width: 100%;
         margin-top: 10px;
+    }
+
+    table {
+        min-width: 0; /* Rimuove la larghezza minima per i dispositivi mobili */
     }
 }
