@@ -3,15 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiche</title>
+    <title>Impostazioni Tariffe</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h2>Statistiche</h2>
-        <canvas id="statisticsChart"></canvas>
+        <h2>Impostazioni Tariffe</h2>
+        <div class="input-group">
+            <label for="dogTariff1">Tariffa Cane 1:</label>
+            <input type="number" id="dogTariff1" value="22">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff2">Tariffa Cane 2:</label>
+            <input type="number" id="dogTariff2" value="35">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff3">Tariffa Cane 3:</label>
+            <input type="number" id="dogTariff3" value="50">
+        </div>
+        <div class="input-group">
+            <label for="catTariff1">Tariffa Gatto 1:</label>
+            <input type="number" id="catTariff1" value="10">
+        </div>
+        <div class="input-group">
+            <label for="catTariff2">Tariffa Gatto 2:</label>
+            <input type="number" id="catTariff2" value="5">
+        </div>
+        <div class="input-group">
+            <label for="catTariff3">Tariffa Gatto 3:</label>
+            <input type="number" id="catTariff3" value="5">
+        </div>
+        <div class="button-group">
+            <button onclick="saveTariffs()">Salva Tariffe</button>
+            <button onclick="window.location.href='index.html'">Torna alla Home</button>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="statistics.js"></script>
+    <script src="settings.js"></script>
 </body>
 </html>
