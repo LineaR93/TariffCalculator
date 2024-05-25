@@ -9,16 +9,15 @@
 <body>
     <div class="container">
         <h2>Gestione Clienti</h2>
-        <table id="clientsTable">
+        <input type="text" id="search" placeholder="Cerca Cliente..." onkeyup="searchClients()">
+        <table class="clients-table" id="clientsTable">
             <thead>
                 <tr>
-                    <th>ID Cliente</th>
-                    <th>Nome del Cliente</th>
-                    <th>Totale Prenotazioni</th>
-                    <th>Totale Cani</th>
-                    <th>Totale Gatti</th>
-                    <th>Entrate Totali</th>
-                    <th>Azioni</th>
+                    <th>Nome del Proprietario</th>
+                    <th>Nome Cane</th>
+                    <th>Nome Gatto</th>
+                    <th>Numero di Prenotazioni</th>
+                    <th>Note</th>
                 </tr>
             </thead>
             <tbody>
