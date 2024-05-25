@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTariffs();
     calculateCost();
     loadUpcomingAppointment();
+    loadNextAppointment();
 });
 
 let tariffs = {
@@ -106,4 +107,19 @@ function loadUpcomingAppointment() {
     document.getElementById('upcoming-appointment').innerHTML = `
         <p>Prossimo appuntamento: ${formattedDate} con ${nextReservation.numDogs} cani e ${nextReservation.numCats} gatti</p>
     `;
+}
+
+function loadNextAppointment() {
+    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    if (appointments.length === 0) {
+        document.getElementById('nextAppointmentMessage').textContent = "Prossimo appuntamento: Nessuno";
+        return;
+    }
+
+    const nextAppointment = appointments.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))[0];
+    const appointmentDate = new Date(nextAppointment.appointmentDate);
+    const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+    const formattedDate = appointmentDate.toLocaleDateString('it-IT', options);
+
+    document.getElementById('nextAppointmentMessage').textContent = `Prossimo appuntamento: ${formattedDate} con ${nextAppointment.ownerName} (Cani: ${nextAppointment.numDogs}, Gatti: ${nextAppointment.numCats})`;
 }
