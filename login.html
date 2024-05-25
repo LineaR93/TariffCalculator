@@ -18,7 +18,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js";
-        import * as firebaseui from 'https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth__en.js';
+        import { AuthUI } from 'https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js';
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -57,12 +57,7 @@
             signInFlow: 'popup',
             signInSuccessUrl: 'index.html',
             signInOptions: [
-                GoogleAuthProvider.PROVIDER_ID,
-                // Add other providers you want to support
-                // FacebookAuthProvider.PROVIDER_ID,
-                // TwitterAuthProvider.PROVIDER_ID,
-                // GithubAuthProvider.PROVIDER_ID,
-                // EmailAuthProvider.PROVIDER_ID
+                GoogleAuthProvider.PROVIDER_ID
             ],
             // Terms of service url.
             tosUrl: '<your-tos-url>',
@@ -71,7 +66,7 @@
         };
 
         // Initialize the FirebaseUI Widget using Firebase.
-        const ui = new firebaseui.auth.AuthUI(auth);
+        const ui = new AuthUI(auth);
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
 
@@ -79,15 +74,6 @@
         console.log("Firebase App Initialized:", app);
         console.log("Auth Instance:", auth);
         console.log("FirebaseUI Config:", uiConfig);
-
-        // Check for any FirebaseUI errors
-        ui.start('#firebaseui-auth-container', uiConfig)
-            .then(() => {
-                console.log("FirebaseUI Widget started successfully");
-            })
-            .catch((error) => {
-                console.error("Error starting FirebaseUI Widget:", error);
-            });
     </script>
 </body>
 </html>
