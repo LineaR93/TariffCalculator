@@ -8,6 +8,8 @@ function loadAppointments() {
         row.innerHTML = `
             <td>${appointment.ownerName}</td>
             <td>${new Date(appointment.appointmentDate).toLocaleString('it-IT')}</td>
+            <td>${appointment.numDogs}</td>
+            <td>${appointment.numCats}</td>
             <td>${appointment.notes}</td>
             <td>
                 <button class="edit-button" onclick="editAppointment(${index})">Modifica</button>
@@ -21,6 +23,8 @@ function loadAppointments() {
 function saveAppointment() {
     const ownerName = document.getElementById('ownerName').value;
     const appointmentDate = document.getElementById('appointmentDate').value;
+    const numDogs = document.getElementById('numDogs').value;
+    const numCats = document.getElementById('numCats').value;
     const notes = document.getElementById('notes').value;
 
     if (!ownerName || !appointmentDate) {
@@ -31,6 +35,8 @@ function saveAppointment() {
     const appointment = {
         ownerName,
         appointmentDate,
+        numDogs,
+        numCats,
         notes
     };
 
@@ -55,6 +61,8 @@ function editAppointment(index) {
 
     document.getElementById('ownerName').value = appointment.ownerName;
     document.getElementById('appointmentDate').value = appointment.appointmentDate;
+    document.getElementById('numDogs').value = appointment.numDogs;
+    document.getElementById('numCats').value = appointment.numCats;
     document.getElementById('notes').value = appointment.notes;
 
     appointments.splice(index, 1);
