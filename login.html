@@ -13,13 +13,12 @@
         <div id="firebaseui-auth-container"></div>
         <div id="loader">Caricamento...</div>
     </div>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js";
-        import { AuthUI } from 'https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js';
-
+    <!-- Includi Firebase e Firebase UI come script normali -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebase-ui-auth__it.js"></script>
+    <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBtNsDjH7oivnrDU7Bi_5fR62ksa4-2N9Q",
@@ -32,9 +31,9 @@
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics(app);
+        const auth = firebase.auth();
 
         // FirebaseUI config
         const uiConfig = {
@@ -57,7 +56,7 @@
             signInFlow: 'popup',
             signInSuccessUrl: 'index.html',
             signInOptions: [
-                GoogleAuthProvider.PROVIDER_ID
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID
             ],
             // Terms of service url.
             tosUrl: '<your-tos-url>',
@@ -66,7 +65,7 @@
         };
 
         // Initialize the FirebaseUI Widget using Firebase.
-        const ui = new AuthUI(auth);
+        const ui = new firebaseui.auth.AuthUI(auth);
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
 
