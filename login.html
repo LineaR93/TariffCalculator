@@ -5,27 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebaseui.css" />
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
-        <div class="input-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email">
-        </div>
-        <div class="input-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password">
-        </div>
-        <div class="button-group">
-            <button onclick="login()">Login</button>
-        </div>
+        <h2>Effettua Login</h2>
+        <div id="firebaseui-auth-container"></div>
+        <div id="loader">Caricamento...</div>
     </div>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+        import * as firebaseui from 'https://cdn.firebase.com/libs/firebaseui/4.8.0/firebaseui.js';
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -41,40 +35,46 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        const auth = getAuth();
+        const auth = getAuth(app);
 
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+        // FirebaseUI config
+        const uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
                     localStorage.setItem('isLoggedIn', true);
                     window.location.href = 'index.html';
-                })
-                .catch((error) => {
-                    alert('Credenziali non valide');
-                });
-        }
-
-        function checkLogin() {
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    document.querySelector('.icon-container').style.display = 'block';
-                } else {
-                    window.location.href = 'login.html';
+                    return false;
+                },
+                uiShown: function() {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    document.getElementById('loader').style.display = 'none';
                 }
-            });
-        }
+            },
+            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+            signInFlow: 'popup',
+            signInSuccessUrl: 'index.html',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                auth.GoogleAuthProvider.PROVIDER_ID,
+                auth.FacebookAuthProvider.PROVIDER_ID,
+                auth.TwitterAuthProvider.PROVIDER_ID,
+                auth.GithubAuthProvider.PROVIDER_ID,
+                auth.EmailAuthProvider.PROVIDER_ID
+            ],
+            // Terms of service url.
+            tosUrl: '<your-tos-url>',
+            // Privacy policy url.
+            privacyPolicyUrl: '<your-privacy-policy-url>'
+        };
 
-        function logout() {
-            signOut(auth).then(() => {
-                localStorage.removeItem('isLoggedIn');
-                window.location.href = 'login.html';
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', checkLogin);
+        // Initialize the FirebaseUI Widget using Firebase.
+        const ui = new firebaseui.auth.AuthUI(auth);
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
     </script>
 </body>
 </html>
