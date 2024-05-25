@@ -6,6 +6,8 @@ function loadReservations() {
     reservations.forEach((reservation, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
+            <td>${reservation.ownerName}</td>
+            <td>${reservation.dogName}</td>
             <td>${reservation.arrival}</td>
             <td>${reservation.departure}</td>
             <td>${reservation.numDogs}</td>
@@ -35,8 +37,21 @@ function deleteReservation(index) {
 }
 
 function editReservation(index) {
-    // Implementa la logica per modificare la prenotazione
-    alert('Funzione di modifica non ancora implementata');
+    const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+    const reservation = reservations[index];
+
+    document.getElementById('ownerName').value = reservation.ownerName;
+    document.getElementById('dogName').value = reservation.dogName;
+    document.getElementById('arrival').value = reservation.arrival;
+    document.getElementById('departure').value = reservation.departure;
+    document.getElementById('numDogs').value = reservation.numDogs;
+    document.getElementById('numCats').value = reservation.numCats;
+    document.getElementById('notes').value = reservation.notes;
+
+    reservations.splice(index, 1);
+    localStorage.setItem('reservations', JSON.stringify(reservations));
+
+    document.querySelector('.button-group button').innerText = 'Aggiorna Prenotazione';
 }
 
 document.addEventListener('DOMContentLoaded', loadReservations);
