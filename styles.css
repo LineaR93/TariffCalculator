@@ -1,33 +1,38 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f4f4f4;
     margin: 0;
+    padding: 0;
 }
 
 .container {
-    max-width: 800px;
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff;
+    background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+    margin-top: 20px;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    padding: 10px 0;
+}
+
+.icon-container {
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    font-size: 1.5em;
+    cursor: pointer;
 }
 
 h2 {
     text-align: center;
-    color: #333;
 }
 
 .input-group {
@@ -37,7 +42,6 @@ h2 {
 .input-group label {
     display: block;
     margin-bottom: 5px;
-    color: #555;
 }
 
 .input-group input,
@@ -46,141 +50,66 @@ h2 {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
     box-sizing: border-box;
 }
 
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    color: #333;
+.button-group {
+    text-align: center;
 }
 
-.icon-container {
-    display: flex;
-    gap: 10px;
-}
-
-.icon {
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-.save-button {
-    width: 100%;
-    padding: 10px;
+button {
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: #28a745;
-    color: white;
-    font-size: 16px;
+    color: #fff;
     cursor: pointer;
 }
 
-.save-button:hover {
-    background-color: #218838;
+button.delete-button {
+    background-color: #dc3545;
 }
 
-.appointments-link {
-    font-size: 18px;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.appointments-link:hover {
-    text-decoration: underline;
-}
-
-.upcoming-appointment {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #e9f7ef;
-    color: #333;
-}
-
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .input-group input,
-    .input-group select,
-    .input-group textarea {
-        padding: 8px;
-    }
-
-    .save-button {
-        padding: 8px;
-        font-size: 14px;
-    }
-
-    .icon {
-        font-size: 20px;
-    }
-
-    .appointments-link {
-        font-size: 16px;
-    }
-}
-
-.appointments-table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.appointments-table, .appointments-table th, .appointments-table td {
+table, th, td {
     border: 1px solid #ddd;
 }
 
-.appointments-table th, .appointments-table td {
-    padding: 8px;
+th, td {
+    padding: 10px;
     text-align: left;
 }
 
-.appointments-table th {
+th {
     background-color: #f2f2f2;
 }
 
-.delete-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #dc3545;
-    color: white;
-    cursor: pointer;
+.appointments-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-.delete-button:hover {
-    background-color: #c82333;
+.appointments-link i {
+    margin-right: 5px;
 }
 
-.edit-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+.result {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
 }
 
-.edit-button:hover {
-    background-color: #0056b3;
-}
-
-.notes-input {
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
+.upcoming-appointment {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #333;
 }
