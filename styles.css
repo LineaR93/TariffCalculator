@@ -82,18 +82,20 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
+table th,
+table td {
     padding: 10px;
+    border: 1px solid #ddd;
     text-align: left;
 }
 
-th {
+table th {
     background-color: #f2f2f2;
 }
 
