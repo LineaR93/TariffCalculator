@@ -22,6 +22,33 @@
         <a href="appointments.html" class="appointments-link"><i class="fas fa-plus"></i> Aggiungi Appuntamento</a>
         <h2>Calcolatore Tariffe Animali</h2>
         <div class="input-group">
+            <label for="customerType">Tipo di Cliente:</label>
+            <select id="customerType" onchange="toggleCustomerFields()">
+                <option value="existing">Cliente Esistente</option>
+                <option value="new">Nuovo Cliente</option>
+            </select>
+        </div>
+        <div class="input-group" id="existingCustomerGroup">
+            <label for="existingCustomer">Cliente Esistente:</label>
+            <select id="existingCustomer" onchange="loadCustomerData()">
+                <!-- Clienti esistenti saranno caricati qui tramite JavaScript -->
+            </select>
+        </div>
+        <div id="newCustomerGroup" style="display:none;">
+            <div class="input-group">
+                <label for="ownerName">Nome Proprietario:</label>
+                <input type="text" id="ownerName">
+            </div>
+            <div class="input-group">
+                <label for="dogName">Nome Cane:</label>
+                <input type="text" id="dogName">
+            </div>
+            <div class="input-group">
+                <label for="catName">Nome Gatto:</label>
+                <input type="text" id="catName">
+            </div>
+        </div>
+        <div class="input-group">
             <label for="arrival">Data e ora di arrivo:</label>
             <input type="datetime-local" id="arrival" step="3600" onchange="calculateCost()">
         </div>
