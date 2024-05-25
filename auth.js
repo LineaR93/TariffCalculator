@@ -11,7 +11,9 @@ function login() {
 }
 
 function checkLogin() {
-    if (!localStorage.getItem('isLoggedIn')) {
+    const path = window.location.pathname;
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if (!isLoggedIn && !path.endsWith('login.html')) {
         window.location.href = 'login.html';
     }
 }
