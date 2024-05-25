@@ -5,74 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebaseui.css" />
 </head>
 <body>
     <div class="login-container">
         <h2>Effettua Login</h2>
-        <div id="firebaseui-auth-container"></div>
-        <div id="loader">Caricamento...</div>
+        <div class="input-group">
+            <label for="username">Nome Utente:</label>
+            <input type="text" id="username">
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password">
+        </div>
+        <div class="button-group">
+            <button onclick="login()">Login</button>
+        </div>
     </div>
-    <!-- Includi Firebase e Firebase UI come script normali -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js"></script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebase-ui-auth.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtNsDjH7oivnrDU7Bi_5fR62ksa4-2N9Q",
-            authDomain: "petsitter-d69ed.firebaseapp.com",
-            projectId: "petsitter-d69ed",
-            storageBucket: "petsitter-d69ed.appspot.com",
-            messagingSenderId: "119772151716",
-            appId: "1:119772151716:web:2fd12bfab1972bb3354b31",
-            measurementId: "G-9J4RWJLTQ2"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        const auth = firebase.auth();
-
-        // FirebaseUI config
-        const uiConfig = {
-            callbacks: {
-                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                    // User successfully signed in.
-                    // Return type determines whether we continue the redirect automatically
-                    // or whether we leave that to developer to handle.
-                    localStorage.setItem('isLoggedIn', true);
-                    window.location.href = 'index.html';
-                    return false;
-                },
-                uiShown: function() {
-                    // The widget is rendered.
-                    // Hide the loader.
-                    document.getElementById('loader').style.display = 'none';
-                }
-            },
-            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-            signInFlow: 'popup',
-            signInSuccessUrl: 'index.html',
-            signInOptions: [
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID
-            ],
-            // Terms of service url.
-            tosUrl: '<your-tos-url>',
-            // Privacy policy url.
-            privacyPolicyUrl: '<your-privacy-policy-url>'
-        };
-
-        // Initialize the FirebaseUI Widget using Firebase.
-        const ui = new firebaseui.auth.AuthUI(auth);
-        // The start method will wait until the DOM is loaded.
-        ui.start('#firebaseui-auth-container', uiConfig);
-
-        // Debugging messages
-        console.log("Firebase App Initialized:", firebase.app());
-        console.log("Auth Instance:", auth);
-        console.log("FirebaseUI Config:", uiConfig);
-    </script>
+    <script src="auth.js"></script>
 </body>
 </html>
