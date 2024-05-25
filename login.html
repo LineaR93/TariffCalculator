@@ -74,6 +74,20 @@
         const ui = new firebaseui.auth.AuthUI(auth);
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
+
+        // Debugging messages
+        console.log("Firebase App Initialized:", app);
+        console.log("Auth Instance:", auth);
+        console.log("FirebaseUI Config:", uiConfig);
+
+        // Check for any FirebaseUI errors
+        ui.start('#firebaseui-auth-container', uiConfig)
+            .then(() => {
+                console.log("FirebaseUI Widget started successfully");
+            })
+            .catch((error) => {
+                console.error("Error starting FirebaseUI Widget:", error);
+            });
     </script>
 </body>
 </html>
