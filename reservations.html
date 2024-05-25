@@ -4,71 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Prenotazioni</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .delete-button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #dc3545;
-            color: white;
-            cursor: pointer;
-        }
-        .delete-button:hover {
-            background-color: #c82333;
-        }
-        .edit-button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-        .edit-button:hover {
-            background-color: #0056b3;
-        }
-        .notes-input {
-            width: 100%;
-            padding: 5px;
-            box-sizing: border-box;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -90,49 +26,6 @@
             </tbody>
         </table>
     </div>
-    <script>
-        function loadReservations() {
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const tbody = document.querySelector('#reservationsTable tbody');
-            tbody.innerHTML = '';
-
-            reservations.forEach((reservation, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${reservation.arrival}</td>
-                    <td>${reservation.departure}</td>
-                    <td>${reservation.numDogs}</td>
-                    <td>${reservation.numCats}</td>
-                    <td>€${reservation.cost}</td>
-                    <td><input type="text" class="notes-input" value="${reservation.notes || ''}" onchange="saveNotes(${index}, this.value)"></td>
-                    <td>
-                        <button class="edit-button" onclick="editReservation(${index})">Modifica</button>
-                        <button class="delete-button" onclick="deleteReservation(${index})">Elimina</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function saveNotes(index, value) {
-            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            reservations[index].notes = value;
-            localStorage.setItem('reservations', JSON.stringify(reservations));
-        }
-
-        function deleteReservation(index) {
-            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            reservations.splice(index, 1);
-            localStorage.setItem('reservations', JSON.stringify(reservations));
-            loadReservations();
-        }
-
-        function editReservation(index) {
-            // Implementa la logica per modificare la prenotazione
-            alert('Funzione di modifica non ancora implementata');
-        }
-
-        document.addEventListener('DOMContentLoaded', loadReservations);
-    </script>
+    <script src="reservations.js"></script>
 </body>
 </html>
