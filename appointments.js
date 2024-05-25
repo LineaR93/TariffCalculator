@@ -1,24 +1,4 @@
-function loadAppointments() {
-    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-    const tbody = document.querySelector('#appointmentsTable tbody');
-    tbody.innerHTML = '';
-
-    appointments.forEach((appointment, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${appointment.ownerName}</td>
-            <td>${new Date(appointment.appointmentDate).toLocaleString('it-IT')}</td>
-            <td>${appointment.numDogs}</td>
-            <td>${appointment.numCats}</td>
-            <td>${appointment.notes}</td>
-            <td>
-                <button class="edit-button" onclick="editAppointment(${index})">Modifica</button>
-                <button class="delete-button" onclick="deleteAppointment(${index})">Elimina</button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
+document.addEventListener('DOMContentLoaded', loadAppointments);
 
 function saveAppointment() {
     const ownerName = document.getElementById('ownerName').value;
@@ -28,7 +8,7 @@ function saveAppointment() {
     const notes = document.getElementById('notes').value;
 
     if (!ownerName || !appointmentDate) {
-        alert('Per favore, inserisci tutti i dati richiesti.');
+        alert('Per favore, completa tutti i campi obbligatori.');
         return;
     }
 
@@ -48,27 +28,33 @@ function saveAppointment() {
     loadAppointments();
 }
 
+function loadAppointments() {
+    const appointmentsTable = document.getElementById('appointmentsTable').getElementsByTagName('tbody')[0];
+    appointmentsTable.innerHTML = '';
+
+    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    appointments.forEach((appointment, index) => {
+        const row = appointmentsTable.insertRow();
+        row.insertCell(0).textContent = appointment.ownerName;
+        row.insertCell(1).textContent = new Date(appointment.appointmentDate).toLocaleString('it-IT');
+        row.insertCell(2).textContent = appointment.numDogs;
+        row.insertCell(3).textContent = appointment.numCats;
+        row.insertCell(4).textContent = appointment.notes;
+
+        const actionsCell = row.insertCell(5);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Elimina';
+        deleteButton.classList.add('delete-button');
+        deleteButton.onclick = () => {
+            deleteAppointment(index);
+        };
+        actionsCell.appendChild(deleteButton);
+    });
+}
+
 function deleteAppointment(index) {
     let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
     appointments.splice(index, 1);
     localStorage.setItem('appointments', JSON.stringify(appointments));
     loadAppointments();
 }
-
-function editAppointment(index) {
-    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
-    const appointment = appointments[index];
-
-    document.getElementById('ownerName').value = appointment.ownerName;
-    document.getElementById('appointmentDate').value = appointment.appointmentDate;
-    document.getElementById('numDogs').value = appointment.numDogs;
-    document.getElementById('numCats').value = appointment.numCats;
-    document.getElementById('notes').value = appointment.notes;
-
-    appointments.splice(index, 1);
-    localStorage.setItem('appointments', JSON.stringify(appointments));
-
-    document.querySelector('.button-group button').innerText = 'Aggiorna Appuntamento';
-}
-
-document.addEventListener('DOMContentLoaded', loadAppointments);
