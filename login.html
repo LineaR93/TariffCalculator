@@ -17,7 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-analytics.js"></script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebase-ui-auth__it.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/4.8.0/firebase-ui-auth.js"></script>
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -31,8 +31,8 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics(app);
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
         const auth = firebase.auth();
 
         // FirebaseUI config
@@ -70,7 +70,7 @@
         ui.start('#firebaseui-auth-container', uiConfig);
 
         // Debugging messages
-        console.log("Firebase App Initialized:", app);
+        console.log("Firebase App Initialized:", firebase.app());
         console.log("Auth Instance:", auth);
         console.log("FirebaseUI Config:", uiConfig);
     </script>
