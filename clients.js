@@ -5,6 +5,7 @@ function loadClients() {
     reservations.forEach(reservation => {
         if (!clients[reservation.ownerName]) {
             clients[reservation.ownerName] = {
+                id: clients.length,
                 totalReservations: 0,
                 totalDogs: 0,
                 totalCats: 0,
@@ -23,6 +24,7 @@ function loadClients() {
     for (const [client, data] of Object.entries(clients)) {
         const row = document.createElement('tr');
         row.innerHTML = `
+            <td>${data.id}</td>
             <td>${client}</td>
             <td>${data.totalReservations}</td>
             <td>${data.totalDogs}</td>
@@ -39,7 +41,6 @@ function loadClients() {
 function viewClient(clientName) {
     const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
     const clientReservations = reservations.filter(reservation => reservation.ownerName === clientName);
-    // Implementa la logica per visualizzare i dettagli delle prenotazioni del cliente
     alert(`Dettagli prenotazioni per ${clientName}: ${JSON.stringify(clientReservations, null, 2)}`);
 }
 
