@@ -63,6 +63,11 @@
         .edit-button:hover {
             background-color: #0056b3;
         }
+        .notes-input {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -74,7 +79,9 @@
                     <th>Data e Ora di Arrivo</th>
                     <th>Data e Ora di Ripartenza</th>
                     <th>Numero di Cani</th>
+                    <th>Numero di Gatti</th>
                     <th>Costo</th>
+                    <th>Note</th>
                     <th>Azioni</th>
                 </tr>
             </thead>
@@ -95,7 +102,9 @@
                     <td>${reservation.arrival}</td>
                     <td>${reservation.departure}</td>
                     <td>${reservation.numDogs}</td>
+                    <td>${reservation.numCats}</td>
                     <td>€${reservation.cost}</td>
+                    <td><input type="text" class="notes-input" value="${reservation.notes || ''}" onchange="saveNotes(${index}, this.value)"></td>
                     <td>
                         <button class="edit-button" onclick="editReservation(${index})">Modifica</button>
                         <button class="delete-button" onclick="deleteReservation(${index})">Elimina</button>
@@ -103,6 +112,12 @@
                 `;
                 tbody.appendChild(row);
             });
+        }
+
+        function saveNotes(index, value) {
+            let reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+            reservations[index].notes = value;
+            localStorage.setItem('reservations', JSON.stringify(reservations));
         }
 
         function deleteReservation(index) {
@@ -114,7 +129,6 @@
 
         function editReservation(index) {
             // Implementa la logica per modificare la prenotazione
-            // Ad esempio, puoi popolare un modulo con i dati della prenotazione per modificarli
             alert('Funzione di modifica non ancora implementata');
         }
 
