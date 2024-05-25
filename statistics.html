@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiche Prenotazioni</title>
+    <title>Impostazioni Tariffe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +16,7 @@
             margin: 0;
         }
         .container {
-            max-width: 800px;
+            max-width: 600px;
             width: 100%;
             padding: 20px;
             border-radius: 10px;
@@ -26,36 +27,113 @@
             text-align: center;
             color: #333;
         }
-        .statistics {
-            margin-top: 20px;
+        .input-group {
+            margin-bottom: 15px;
         }
-        .statistics p {
-            font-size: 18px;
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
             color: #555;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .button-group {
+            text-align: center;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        .button-group button:hover {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Statistiche Prenotazioni</h2>
-        <div class="statistics" id="statistics">
-            <!-- Le statistiche saranno caricate qui tramite JavaScript -->
+        <h2>Impostazioni Tariffe</h2>
+        <div class="input-group">
+            <label for="dogTariff1">Tariffa 1 Cane (€ / 24 ore):</label>
+            <input type="number" id="dogTariff1" value="22">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff2">Tariffa 2 Cani (€ / 24 ore):</label>
+            <input type="number" id="dogTariff2" value="35">
+        </div>
+        <div class="input-group">
+            <label for="dogTariff3">Tariffa 3 Cani (€ / 24 ore):</label>
+            <input type="number" id="dogTariff3" value="50">
+        </div>
+        <div class="input-group">
+            <label for="catTariff1">Tariffa 1 Gatto (€ / 24 ore):</label>
+            <input type="number" id="catTariff1" value="10">
+        </div>
+        <div class="input-group">
+            <label for="catTariff2">Tariffa 2 Gatti (€ / 24 ore):</label>
+            <input type="number" id="catTariff2" value="5">
+        </div>
+        <div class="input-group">
+            <label for="catTariff3">Tariffa 3 Gatti (€ / 24 ore):</label>
+            <input type="number" id="catTariff3" value="5">
+        </div>
+        <div class="button-group">
+            <button onclick="saveTariffs()">Salva</button>
+            <button onclick="window.location.href='index.html'">Torna al Calcolatore</button>
         </div>
     </div>
     <script>
-        function loadStatistics() {
-            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
-            const totalReservations = reservations.length;
-            const totalRevenue = reservations.reduce((sum, reservation) => sum + parseFloat(reservation.cost), 0);
+        function saveTariffs() {
+            const dogTariff1 = parseFloat(document.getElementById('dogTariff1').value);
+            const dogTariff2 = parseFloat(document.getElementById('dogTariff2').value);
+            const dogTariff3 = parseFloat(document.getElementById('dogTariff3').value);
+            const catTariff1 = parseFloat(document.getElementById('catTariff1').value);
+            const catTariff2 = parseFloat(document.getElementById('catTariff2').value);
+            const catTariff3 = parseFloat(document.getElementById('catTariff3').value);
 
-            const statsDiv = document.getElementById('statistics');
-            statsDiv.innerHTML = `
-                <p>Numero totale di prenotazioni: ${totalReservations}</p>
-                <p>Entrate totali: €${totalRevenue.toFixed(2)}</p>
-            `;
+            if (!isNaN(dogTariff1) && !isNaN(dogTariff2) && !isNaN(dogTariff3) &&
+                !isNaN(catTariff1) && !isNaN(catTariff2) && !isNaN(catTariff3)) {
+                localStorage.setItem('dogTariff1', dogTariff1);
+                localStorage.setItem('dogTariff2', dogTariff2);
+                localStorage.setItem('dogTariff3', dogTariff3);
+                localStorage.setItem('catTariff1', catTariff1);
+                localStorage.setItem('catTariff2', catTariff2);
+                localStorage.setItem('catTariff3', catTariff3);
+                alert('Tariffe salvate con successo!');
+            } else {
+                alert('Per favore, inserisci tutte le tariffe correttamente.');
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', loadStatistics);
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('dogTariff1')) {
+                document.getElementById('dogTariff1').value = localStorage.getItem('dogTariff1');
+            }
+            if (localStorage.getItem('dogTariff2')) {
+                document.getElementById('dogTariff2').value = localStorage.getItem('dogTariff2');
+            }
+            if (localStorage.getItem('dogTariff3')) {
+                document.getElementById('dogTariff3').value = localStorage.getItem('dogTariff3');
+            }
+            if (localStorage.getItem('catTariff1')) {
+                document.getElementById('catTariff1').value = localStorage.getItem('catTariff1');
+            }
+            if (localStorage.getItem('catTariff2')) {
+                document.getElementById('catTariff2').value = localStorage.getItem('catTariff2');
+            }
+            if (localStorage.getItem('catTariff3')) {
+                document.getElementById('catTariff3').value = localStorage.getItem('catTariff3');
+            }
+        });
     </script>
 </body>
 </html>
