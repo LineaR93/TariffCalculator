@@ -1,33 +1,39 @@
-document.addEventListener('DOMContentLoaded', loadTariffs);
+document.addEventListener('DOMContentLoaded', loadStatistics);
 
-function saveTariffs() {
-    localStorage.setItem('dogTariff1', document.getElementById('dogTariff1').value);
-    localStorage.setItem('dogTariff2', document.getElementById('dogTariff2').value);
-    localStorage.setItem('dogTariff3', document.getElementById('dogTariff3').value);
-    localStorage.setItem('catTariff1', document.getElementById('catTariff1').value);
-    localStorage.setItem('catTariff2', document.getElementById('catTariff2').value);
-    localStorage.setItem('catTariff3', document.getElementById('catTariff3').value);
+function loadStatistics() {
+    const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+    const monthlyData = {};
 
-    alert('Tariffe salvate con successo!');
-}
+    reservations.forEach(reservation => {
+        const month = new Date(reservation.arrival).toLocaleString('it-IT', { month: 'long', year: 'numeric' });
+        if (!monthlyData[month]) {
+            monthlyData[month] = 0;
+        }
+        monthlyData[month] += parseFloat(reservation.cost);
+    });
 
-function loadTariffs() {
-    if (localStorage.getItem('dogTariff1')) {
-        document.getElementById('dogTariff1').value = localStorage.getItem('dogTariff1');
-    }
-    if (localStorage.getItem('dogTariff2')) {
-        document.getElementById('dogTariff2').value = localStorage.getItem('dogTariff2');
-    }
-    if (localStorage.getItem('dogTariff3')) {
-        document.getElementById('dogTariff3').value = localStorage.getItem('dogTariff3');
-    }
-    if (localStorage.getItem('catTariff1')) {
-        document.getElementById('catTariff1').value = localStorage.getItem('catTariff1');
-    }
-    if (localStorage.getItem('catTariff2')) {
-        document.getElementById('catTariff2').value = localStorage.getItem('catTariff2');
-    }
-    if (localStorage.getItem('catTariff3')) {
-        document.getElementById('catTariff3').value = localStorage.getItem('catTariff3');
-    }
+    const labels = Object.keys(monthlyData);
+    const data = Object.values(monthlyData);
+
+    const ctx = document.getElementById('statisticsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Entrate Mensili (€)',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
