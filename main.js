@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let tariffs = {
     dogs: {
-        1: 22,
+        1: 25,
         2: 35,
         3: 50
     },
     cats: {
         1: 10,
-        2: 5,
-        3: 5
+        2: 15,
+        3: 20
     }
 };
 
